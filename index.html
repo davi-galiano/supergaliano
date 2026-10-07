@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SUPER GALIANO — Uma Aventura Pixel</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="gameContainer">
+    <!-- Main Pixel Art Canvas -->
+    <canvas id="gameCanvas"></canvas>
+
+    <!-- Discreet HUD Options (Top Right, non-intrusive) -->
+    <div class="discreet-hud-controls">
+      <button id="btnSoundToggle" class="hud-btn" title="Alternar Som (M)">🔊 SOM</button>
+      <button id="btnHelpToggle" class="hud-btn" title="Controles (?)">⌨ AJUDA</button>
+    </div>
+
+    <!-- Help Popup (Only shown when clicking [? AJUDA]) -->
+    <div id="helpModal">
+      <div class="help-row"><span>Mover Esquerda:</span><span class="key-badge">A / ←</span></div>
+      <div class="help-row"><span>Mover Direita:</span><span class="key-badge">D / →</span></div>
+      <div class="help-row"><span>Pular:</span><span class="key-badge">Espaço</span></div>
+      <div class="help-row"><span>Atacar:</span><span class="key-badge">X</span></div>
+      <div class="help-row"><span>Reiniciar Fase:</span><span class="key-badge">R</span></div>
+      <div class="help-row"><span>Mutar Som:</span><span class="key-badge">M</span></div>
+    </div>
+
+    <!-- =========================================================================
+         START MENU (Menu Inicial - Strictly as specified in prompt)
+         SUPER GALIANO
+         UMA AVENTURA PIXELADA
+         [ ▶ INICIAR ]
+         ========================================================================= -->
+   <div id="startMenu"> <div class="menu-card"> 
+    <img src="logo.png" alt="Logo do SUPER GALIANO" class="game-logo" > 
+    <h1 class="game-title">UMA AVENTURA PIXEL</h1> 
+    <p class="game-subtitle"></p> 
+    <button id="btnStart" class="btn-start">
+         ▶ INICIAR </button> </div> </div>
+
+    <!-- =========================================================================
+         VICTORY SCREEN (Tela de Vitória)
+         Black background with "You Win (Você Venceu)"
+         ========================================================================= -->
+    <div id="victoryScreen">
+      <div id="victoryContent" style="opacity: 0; transition: opacity 1.2s ease; display: flex; flex-direction: column; align-items: center;">
+        <h1 class="victory-title">You Win</h1>
+        <p class="victory-sub">(Você Venceu)</p>
+      </div>
+    </div>
+
+    <!-- =========================================================================
+         TRIBUTE SCREEN (Homenagem - Simple, elegant, centered)
+         ========================================================================= -->
+    <div id="tributeScreen">
+      <div class="tribute-box">
+        <h2 class="tribute-header">Em Memória de:</h2>
+        <ul class="tribute-list">
+          <li class="tribute-name">Dirce Maria Mendes de Carvalho Galiano</li>
+          <li class="tribute-name">João Moreira</li>
+          <li class="tribute-name">Lia Maria Galiano Moreira</li>
+          <li class="tribute-name">João Guilherme Galiano Moreira</li>
+          <li class="tribute-name">Antônio Nicolau José Galiano</li>
+          <li class="tribute-name">Amilta Pereira Barbosa</li>
+          🖤
+        </ul>
+        <button id="btnTributeRestart" class="btn-replay">↻ JOGAR NOVAMENTE</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Engine Scripts in Dependency Order -->
+  <script src="js/sprites.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/physics.js"></script>
+  <script src="js/entities.js"></script>
+  <script src="js/levels.js"></script>
+  <script src="js/game.js"></script>
+
+  <!-- Toggle Handlers for Discreet HUD Buttons -->
+  <script>
+    const soundBtn = document.getElementById('btnSoundToggle');
+    if (soundBtn) {
+      soundBtn.addEventListener('click', () => {
+        const isMuted = SoundEngine.toggleMute();
+        soundBtn.textContent = isMuted ? '🔇 MUDO' : '🔊 SOM';
+      });
+    }
+
+    const helpBtn = document.getElementById('btnHelpToggle');
+    const helpModal = document.getElementById('helpModal');
+    if (helpBtn && helpModal) {
+      helpBtn.addEventListener('click', () => {
+        const isOpen = helpModal.style.display === 'flex';
+        helpModal.style.display = isOpen ? 'none' : 'flex';
+      });
+      document.addEventListener('click', (e) => {
+        if (!helpModal.contains(e.target) && e.target !== helpBtn) {
+          helpModal.style.display = 'none';
+        }
+      });
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,321 @@
+/* ==========================================================================
+   SUPER GALIANO - Stylesheet
+   Retro Pixel Art Platformer
+   ========================================================================== */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+}
+
+body, html {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: #05070b;
+  font-family: 'Courier New', Courier, monospace, system-ui;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#gameContainer {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at center, #111827 0%, #030712 100%);
+}
+
+/* Canvas styling: strict pixel-art clarity */
+#gameCanvas {
+  display: block;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -webkit-crisp-edges;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.9), 0 0 15px rgba(59, 130, 246, 0.2);
+  border: 3px solid #1e293b;
+  border-radius: 4px;
+  background: #000;
+}
+
+/* Discreet control buttons (top right, non-intrusive) */
+.discreet-hud-controls {
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  display: flex;
+  gap: 10px;
+  z-index: 20;
+}
+
+.hud-btn {
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid #334155;
+  color: #94a3b8;
+  padding: 6px 12px;
+  font-size: 11px;
+  font-family: inherit;
+  font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(4px);
+}
+
+.hud-btn:hover {
+  background: #1e293b;
+  color: #ffffff;
+  border-color: #64748b;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
+}
+
+/* ==========================================================================
+   START MENU (Tela Inicial)
+   Strictly shows:
+   SUPER GALIANO
+   UMA AVENTURA PIXELADA
+   [ ▶ INICIAR ]
+   ========================================================================== */
+#startMenu {
+  position: absolute;
+  inset: 0;
+  background: rgba(3, 7, 18, 0.92);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  text-align: center;
+  backdrop-filter: blur(8px);
+}
+
+.menu-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 60px;
+  background: rgba(15, 23, 42, 0.8);
+  border: 2px solid #3b82f6;
+  border-radius: 12px;
+  box-shadow: 0 0 35px rgba(59, 130, 246, 0.35);
+  animation: glowPulse 3s infinite ease-in-out;
+}
+
+.game-title {
+  font-size: 3.5rem;
+  font-weight: 900;
+  letter-spacing: 4px;
+  color: #facc15;
+  text-shadow: 
+    3px 3px 0 #b45309,
+    -2px -2px 0 #1e3a8a,
+    0 0 25px rgba(250, 204, 21, 0.6);
+  margin-bottom: 8px;
+}
+
+.game-subtitle {
+  font-size: 1.15rem;
+  letter-spacing: 5px;
+  color: #93c5fd;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 36px;
+  text-shadow: 0 0 10px rgba(147, 197, 253, 0.5);
+}
+
+.btn-start {
+  background: linear-gradient(180deg, #22c55e 0%, #15803d 100%);
+  color: #ffffff;
+  border: 2px solid #86efac;
+  padding: 16px 42px;
+  font-size: 1.4rem;
+  font-weight: 900;
+  letter-spacing: 2px;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 6px 0 #14532d, 0 10px 20px rgba(0, 0, 0, 0.5);
+  transition: all 0.15s ease;
+  outline: none;
+}
+
+.btn-start:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(180deg, #4ade80 0%, #16a34a 100%);
+  box-shadow: 0 8px 0 #14532d, 0 15px 25px rgba(34, 197, 94, 0.4);
+}
+
+.btn-start:active {
+  transform: translateY(4px);
+  box-shadow: 0 2px 0 #14532d, 0 5px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* ==========================================================================
+   VICTORY SCREEN (Tela de Vitória)
+   Completely black screen -> "You Win (Você Venceu)"
+   ========================================================================== */
+#victoryScreen {
+  position: absolute;
+  inset: 0;
+  background: #000000;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 120;
+  text-align: center;
+  transition: opacity 1.5s ease;
+}
+
+.victory-title {
+  font-size: 4rem;
+  font-weight: 900;
+  color: #facc15;
+  letter-spacing: 6px;
+  text-shadow: 0 0 30px rgba(250, 204, 21, 0.8);
+  margin-bottom: 12px;
+  animation: pulseScale 2s infinite ease-in-out;
+}
+
+.victory-sub {
+  font-size: 1.8rem;
+  color: #e2e8f0;
+  letter-spacing: 3px;
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   TRIBUTE SCREEN (Homenagem)
+   Simple, elegant, centered, and emotional
+   ========================================================================== */
+#tributeScreen {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, #0f172a 0%, #000000 100%);
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 130;
+  text-align: center;
+  padding: 30px;
+  transition: opacity 1.8s ease;
+}
+
+.tribute-box {
+  max-width: 650px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.tribute-header {
+  font-size: 2.4rem;
+  letter-spacing: 8px;
+  color: #facc15;
+  font-weight: 900;
+  margin-bottom: 30px;
+  text-shadow: 0 0 20px rgba(250, 204, 21, 0.5);
+  border-bottom: 2px solid rgba(250, 204, 21, 0.3);
+  padding-bottom: 12px;
+  width: 100%;
+}
+
+.tribute-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 40px;
+}
+
+.tribute-name {
+  font-size: 1.35rem;
+  color: #f1f5f9;
+  letter-spacing: 2px;
+  font-weight: 500;
+  line-height: 1.5;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+  transition: transform 0.3s ease;
+}
+
+.tribute-name:hover {
+  transform: scale(1.03);
+  color: #fef08a;
+}
+
+.btn-replay {
+  background: transparent;
+  color: #94a3b8;
+  border: 1px solid #475569;
+  padding: 10px 24px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  letter-spacing: 2px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-replay:hover {
+  color: #ffffff;
+  border-color: #facc15;
+  box-shadow: 0 0 15px rgba(250, 204, 21, 0.4);
+}
+
+/* Subtle help modal (can be opened by discreet '?' button) */
+#helpModal {
+  position: absolute;
+  top: 50px;
+  right: 18px;
+  background: rgba(15, 23, 42, 0.95);
+  border: 1px solid #334155;
+  padding: 14px 18px;
+  border-radius: 8px;
+  display: none;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 50;
+  font-size: 12px;
+  color: #cbd5e1;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.8);
+}
+
+.help-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.key-badge {
+  background: #334155;
+  color: #facc15;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-weight: bold;
+}
+
+/* Keyframe animations */
+@keyframes glowPulse {
+  0%, 100% {
+    box-shadow: 0 0 35px rgba(59, 130, 246, 0.35);
+  }
+  50% {
+    box-shadow: 0 0 55px rgba(59, 130, 246, 0.65);
+  }
+}
+
+@keyframes pulseScale {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.04);
+  }
+}
